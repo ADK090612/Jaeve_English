@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>제이브 영어 학원 (Jaeve eng)</title>
     <style>
         /* 1. 기본 설정 및 변수 */
@@ -14,6 +14,7 @@
             --glass-border: rgba(255, 255, 255, 0.2);
             --text-color: #ffffff;
             --blur-strength: 16px;
+            --highlight-yellow: #ffeaa7; /* 로고와 동일한 밝은 노란색 */
         }
 
         * {
@@ -23,6 +24,11 @@
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
         }
 
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden; /* 모바일 가로 스크롤 방지 */
+        }
+
         body {
             background: linear-gradient(135deg, var(--dark-purple), var(--light-purple));
             min-height: 100vh;
@@ -30,7 +36,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-x: hidden;
+        }
+
+        /* 텍스트 하이라이트 클래스 */
+        .txt-yellow {
+            color: var(--highlight-yellow);
+            text-shadow: 0 0 10px rgba(255, 234, 167, 0.3);
         }
 
         /* 배경 효과 */
@@ -59,15 +70,13 @@
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
         }
 
-        /* 수정된 디자인: 네비게이션 바와 동일한 연보라색 스타일 */
         .solid-purple-box {
             background: var(--light-purple);
             border: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            color: var(--dark-purple); /* 배경이 밝아졌으므로 글자는 진하게 변경 */
+            color: var(--dark-purple);
         }
         
-        /* 박스 내부 텍스트 색상 강제 지정 (가독성 확보) */
         .solid-purple-box h3, 
         .solid-purple-box h2, 
         .solid-purple-box p,
@@ -90,7 +99,7 @@
                 inset 2px 2px 4px rgba(255,255,255,0.2), 
                 inset -2px -2px 4px rgba(0,0,0,0.2),
                 0 4px 10px rgba(0,0,0,0.3);
-            color: white; /* 버튼 글씨는 흰색 유지하거나 */
+            color: white; 
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.3s ease;
             text-transform: uppercase;
@@ -104,10 +113,11 @@
             line-height: 1.5;
         }
         
-        /* 연보라색 박스 안의 버튼은 가독성을 위해 글자색 조정이 필요할 수 있으나, 
-           디자인 통일성을 위해 우선 흰색 유지 (배경이 진한 버튼 느낌) */
+        /* [수정] 카드 내부 버튼도 헤더 버튼과 동일한 디자인을 유지하도록 
+           기존의 배경색 덮어쓰기 코드를 제거하고 텍스트 색상만 흰색으로 고정 */
         .solid-purple-box .lens-btn {
-            background: var(--primary-purple);
+            /* background: var(--primary-purple); <- 이 부분을 제거하여 그라데이션 유지 */
+            background-color: rgba(49, 11, 78, 0.8); /* 가독성을 위해 반투명 진한 보라색 베이스 추가 */
             color: #fff;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
@@ -188,24 +198,27 @@
 
         header {
             text-align: center;
-            padding: 120px 20px 80px;
-            max-width: 800px;
+            padding: 140px 20px 80px; /* 상단 여백 약간 증가 */
+            max-width: 900px; /* 너비 증가 */
+            width: 100%;
         }
 
         header h1 {
-            font-size: 3.5rem;
+            font-size: 4.5rem; /* 글자 크기 확대 (기존 3.5rem) */
             margin-bottom: 20px;
             line-height: 1.2;
             text-shadow: 0 4px 10px rgba(0,0,0,0.3);
             color: white;
             font-weight: 800;
+            word-break: keep-all; /* 단어 단위 줄바꿈 */
         }
 
         header p {
-            font-size: 1.2rem;
+            font-size: 1.3rem; /* 본문도 약간 확대 */
             margin-bottom: 40px;
-            opacity: 0.9;
+            opacity: 0.95;
             color: white;
+            line-height: 1.6;
         }
 
         .cta-button {
@@ -232,7 +245,6 @@
             min-height: 300px;
             border-radius: 30px;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
-            /* 기존 .glass 제거하고 .solid-purple-box 적용 예정 */
         }
 
         .card:hover {
@@ -298,8 +310,6 @@
             margin-bottom: 50px;
             padding: 60px 40px;
             border-radius: 30px;
-            
-            /* 기존 glass 제거하고 solid-purple-box 적용 */
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -339,6 +349,19 @@
             font-weight: 500;
         }
 
+        /* 전화번호 링크 스타일 */
+        .contact-link {
+            text-decoration: none;
+            color: var(--dark-purple);
+            font-weight: 700;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        .contact-link:hover {
+            color: var(--primary-purple);
+            text-decoration: underline;
+        }
+
         .footer-bottom {
             margin-top: 20px;
             font-size: 1rem;
@@ -354,7 +377,7 @@
                 overflow-x: auto; 
                 -webkit-overflow-scrolling: touch; 
                 padding: 10px 15px; 
-                width: 95%;
+                width: 95%; /* 모바일 너비 최적화 */
                 gap: 15px;
                 justify-content: flex-start; 
                 -ms-overflow-style: none; 
@@ -372,10 +395,27 @@
                 flex-shrink: 0;
             }
 
-            header h1 { font-size: 2.2rem; }
+            header {
+                padding: 100px 20px 60px; /* 모바일 헤더 패딩 조정 */
+            }
+
+            header h1 { 
+                font-size: 2.8rem; /* 모바일에서 깨지지 않도록 적절히 크게 조정 */
+            }
+
+            .features {
+                width: 95%; /* 모바일에서 카드 너비 확보 */
+                grid-template-columns: 1fr; /* 1열로 고정 */
+                gap: 20px;
+            }
 
             .footer-title { font-size: 2.5rem; }
             .footer-content { gap: 30px; flex-direction: column; }
+            
+            .footer-box {
+                padding: 40px 20px;
+                width: 95%;
+            }
         }
     </style>
 </head>
@@ -388,13 +428,9 @@
         <div class="nav-left">
             <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="50" cy="50" r="50" fill="#ffeaa7"/>
-                
                 <path d="M 32 20 V 70 Q 32 82 42 82" stroke="#480082" stroke-width="5" fill="none" stroke-linecap="round" />
-                
                 <path d="M 50 50 L 62 20 L 74 50 M 55 42 H 69" stroke="#480082" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                
                 <path d="M 45 55 V 82 H 60 M 45 68 H 58 M 45 55 H 60" stroke="#480082" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                
                 <path d="M 68 55 L 78 82 L 88 55" stroke="#480082" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <a href="#intro" class="logo-text">제이브 영어</a>
@@ -408,8 +444,8 @@
     </nav>
 
     <header id="intro">
-        <h1>고등 영어가<br>빛나는 순간</h1>
-        <p>흔들림 없는 영어의 시작,<br>시작이 다르면 결과도 다릅니다.</p>
+        <h1><span class="txt-yellow">고등 영어</span>가<br>빛나는 순간</h1>
+        <p>흔들림 없는 영어의 <span class="txt-yellow">시작</span>,<br><span class="txt-yellow">시작</span>이 다르면 <span class="txt-yellow">결과</span>도 다릅니다.</p>
         <a href="#location" class="lens-btn pill cta-button">상담 신청</a>
     </header>
 
@@ -467,8 +503,8 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h4>수업 문의</h4>
-                <p>전화: 070-7868-9515</p>
-                <p>문자: 010-3976-9515</p>
+                <p>전화: <a href="tel:07078689515" class="contact-link">070-7868-9515</a></p>
+                <p>문자: <a href="sms:01039769515" class="contact-link">010-3976-9515</a></p>
             </div>
             <div class="footer-section">
                 <h4>학원 위치</h4>
@@ -527,6 +563,7 @@
             });
 
             btn.addEventListener('click', function(e) {
+                // a 태그의 기본 동작은 유지하되 효과만 추가
                 const rect = btn.getBoundingClientRect();
                 let x = e.clientX - rect.left;
                 let y = e.clientY - rect.top;
